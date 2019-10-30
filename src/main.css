@@ -54,11 +54,11 @@ body {
   border-radius: 30%;
   color: var(--mainWhite);
 }
-/* --------------- End of Navbar ---------------- */
+
 /* --------------- Hero ---------------- */
 .hero {
   min-height: calc(100vh - 60px);
-  background: url("./images/hero-bcg.jpeg") center/cover no-repeat;
+  background: url("/images/hero-bcg.jpeg") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,9 +90,8 @@ body {
   background: transparent;
   color: var(--primaryColor);
 }
-/* --------------- End of Hero ---------------- */
-/* --------------- Products ---------------- */
 
+/* --------------- Products ---------------- */
 .products {
   padding: 4rem 0;
 }
@@ -148,7 +147,6 @@ body {
 .img-container:hover .product-img {
   opacity: 0.5;
 }
-
 .product h3 {
   text-transform: capitalize;
   font-size: 1.1rem;
@@ -156,7 +154,6 @@ body {
   letter-spacing: var(--mainSpacing);
   text-align: center;
 }
-
 .product h4 {
   margin-top: 0.7rem;
   letter-spacing: var(--mainSpacing);
@@ -164,7 +161,6 @@ body {
   text-align: center;
 }
 
-/* ---------------End of Products ---------------- */
 /* --------------- Cart ---------------- */
 .cart-overlay {
   position: fixed;
@@ -246,8 +242,6 @@ body {
   color: var(--primaryColor);
   cursor: pointer;
 }
-/*---------- End of Cart Item -------------------- */
-
 .cart-footer {
   margin-top: 2rem;
   letter-spacing: var(--mainSpacing);
@@ -258,4 +252,3 @@ body {
   margin-bottom: 1rem;
 }
 
-/* --------------- End of Cart ---------------- */
