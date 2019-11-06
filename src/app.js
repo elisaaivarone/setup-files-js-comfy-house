@@ -1,3 +1,10 @@
+const client = contentful.createClient({
+  // This is the space ID. A space is like a project folder in Contentful terms
+  space: "woxcso2mhura",
+  // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+  accessToken: "UN4vaF_rpbLXFpOEkvGhH4OvpphXbY_FSkfbaAyH7wQ"
+});
+
 const cartBtn = document.querySelector(".cart-btn");
 const closeCartBtn = document.querySelector(".close-cart");
 const clearCartBtn = document.querySelector(".clear-cart");
@@ -15,9 +22,13 @@ let buttonsDOM = [];
 class Products {
   async getProducts() {
     try {
-      let result = await fetch('products.json');
+      let contentful = await client.getEntries({
+        content_type: "comfyHouseProduct"
+      });
+      
+      let result = await fetch("products.json");
       let data = await result.json();
-      let products = data.items;
+      let products = contentful.items;
       products = products.map(item => {
       const {title,price} = item.fields;
       const {id} = item.sys;
@@ -34,7 +45,7 @@ class Products {
 //display products
 class UI {
   displayProducts(products) {
-    let result = '';
+    let result = "";
     products.forEach(product => {
       result += `<article class="product">
       <div class="img-container">
@@ -51,18 +62,18 @@ class UI {
         productsDom.innerHTML = result;
     }
     getBagButtons() {
-      const buttons = [...document.querySelectorAll('.bag-btn')];
+      const buttons = [...document.querySelectorAll(".bag-btn")];
       buttonsDOM = buttons;
       buttons.forEach(button => {
         let id = button.dataset.id;
         let inCart = cart.find(item => item.id === id);
 
         if(inCart) {
-          button.innerText = 'In Cart';
+          button.innerText = "In Cart";
           button.disabled = true
         }
-          button.addEventListener('click', event => {
-            event.target.innerText = 'In Cart';
+          button.addEventListener("click", event => {
+            event.target.innerText = "In cart";
             event.target.disabled = true;
             //get products from products
             let cartItem = {...Storage.getProduct(id), amount: 1};
@@ -157,7 +168,7 @@ class UI {
             cartContent.removeChild(lowerAmount.parentElement.parentElement);
             this.removeItem(id)
           }
-      }
+        }
     });
   }
   clearCart() {
@@ -174,7 +185,7 @@ class UI {
     Storage.saveCart(cart);
     let button = this.getSingleButton(id);
     button.disabled = false;
-    button.innerHTML = `<i class='fas fa-shopping-cart'></i>add to cart`;
+    button.innerHTML = `<i class="fas fa-shopping-cart"></i>add to cart`;
   }
   getSingleButton(id) {
     return buttonsDOM.find(button => button.dataset.id === id);
@@ -183,26 +194,26 @@ class UI {
 
 //local storage
 class Storage {
-    static saveProducts(products) {
-      localStorage.setItem("products", JSON.stringify(products));
-    }
-    static getProduct(id) {
-        let products = JSON.parse(localStorage.getItem("products"));
-        return products.find(product => product.id === id)
-    }
-    static saveCart(cart) {
-        localStorage.setItem("cart", JSON.stringify(cart));
-    }
-    static getCart() {
-      return localStorage.getItem('cart')
-      ? JSON.parse(localStorage.getItem('cart'))
-      : [] ;
-    }
+  static saveProducts(products) {
+    localStorage.setItem("products", JSON.stringify(products));
+  }
+  static getProduct(id) {
+    let products = JSON.parse(localStorage.getItem("products"));
+    return products.find(product => product.id === id)
+  }
+  static saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  static getCart() {
+    return localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart'))
+    : [] ;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const ui = new UI();
-    const products = new Products();
+  const ui = new UI();
+  const products = new Products();
 
     //setup app
   ui.setupAPP();
